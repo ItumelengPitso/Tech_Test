@@ -5,115 +5,66 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-3" style="padding-bottom: 20px">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userModal">
-                    + Add User
-                </button>
+                <a class="btn btn-primary" href="{{ route('create') }}"> + Add User</a>
             </div>
+            {{--Message--}}
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="width: 50%">
+                    <strong>Attention!</strong> {{session('success')}}.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="float: right">
+                        <span>&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">{{'Registered users'}}</div>
 
                     <div class="card-body">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Surname</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Mobile number</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Actions</th>
 
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($registeredUser as $index => $user)
+
+                            <tr>
+                                <th scope="row">{{++$index}}</th>
+                                <td>{{$user->first_name}}</td>
+                                <td>{{$user->surname}}</td>
+                                <td>{{$user->sa_id}}</td>
+                                <td>{{$user->mobile}}</td>
+                                <td>{{$user->email}}</td>
+                                <td class="big-column">
+                                    <form action="{{ route('destroy',$user->id) }}" method="POST">
+                                    <a class="btn btn-primary" href="{{ route('edit',$user->id) }}"  title="Click button to edit user">
+                                        <i class="fa fa-gear fa-spin"></i>
+                                    </a>
+                                    @csrf
+
+                                    <button  type="submit" class="btn btn-danger" title="Click button to delete user">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- The Modal -->
-    <div class="modal fade" id="userModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Register User</h4>
-                </div>
-
-                <form method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="container">
-
-                            <div class="form-group">
-                                <label for="first_name">Name:</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="surname">Surname:</label>
-                                <input type="text" class="form-control" id="surname" name="surname">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="sa_id">SA ID:</label>
-                                <input type="text" class="form-control" id="sa_id" name="sa_id">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mobile">Mobile Number:</label>
-                                <input type="number" class="form-control" id="mobile" name="mobile">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                       name="email" value="{{ old('email') }}"  autocomplete="email">
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="birth_date">Birth Date:</label>
-                                <input type="date" class="form-control" id="birth_date" name="birth_date">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="language">Language:</label>
-                                <select id='language' name="language" class="form-control">
-                                    <option value="" disabled selected>Select An Option</option>
-                                      @foreach($language as $lan)
-                                        <option value=" {!! $lan->id !!}">{{ $lan->name }}</option>
-                                      @endforeach
-                                </select>
-                            </div>
-                            <label for='interests'>Interests:</label>
-                            <div class="form-group">
-                                <select class="form-control" id="interSelect"  name="interests[]" style="width: 100%">
-                                    <option value="" disabled>Select An Option</option>
-                                    @foreach($interest as $rests)
-                                        <option value="{!! $rests->id !!}">{{ $rests->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button style="float: left" type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
-
             </div>
         </div>
     </div>
 @endsection
-@push('user_scripts')
-    <script>
-        $(document).ready(function(){
-            $('#interSelect').select2({
-                multiple: true,
-                dropdownParent: $("#userModal"),
-            });
-        });
-
-    </script>
-@endpush
 

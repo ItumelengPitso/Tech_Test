@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Interests;
-use App\Models\Languages;
+use App\Models\UserRegister;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -26,12 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $registeredUser = UserRegister::all();
+
         if (Auth::check()){
-
-            $language = Languages::all();
-            $interest = Interests::all();
-
-            return view('user_register',compact('language','interest'));
+            return view('user_register',compact('registeredUser'));
         }else{
             return view('auth.login');
         }
