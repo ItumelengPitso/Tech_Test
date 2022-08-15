@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-3" style="padding-bottom: 20px">
-                <a class="btn btn-primary" href="{{ route('create') }}"> + Add User</a>
+                <a class="btn btn-primary" href="{{ route('UserRegistrations.create') }}"> + Add User</a>
             </div>
             {{--Message--}}
             @if(session('success'))
@@ -46,11 +46,10 @@
                                 <td>{{$user->mobile}}</td>
                                 <td>{{$user->email}}</td>
                                 <td class="big-column">
-                                    <form action="{{ route('destroy',$user->id) }}" method="POST">
-                                    <a class="btn btn-primary" href="{{ route('edit',$user->id) }}"  title="Click button to edit user">
+                                    <form action="{{ route('destroy',$user->id) }}" method="get">
+                                    <a class="btn btn-primary" href="{{ route('UserRegistrations.edit',$user->id) }}"  title="Click button to edit user">
                                         <i class="fa fa-gear fa-spin"></i>
                                     </a>
-                                    @csrf
 
                                     <button  type="submit" class="btn btn-danger" title="Click button to delete user">
                                         <i class="fa fa-trash"></i>

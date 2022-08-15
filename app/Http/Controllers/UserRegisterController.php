@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-//use http\Client\Curl\User;
+use http\Client\Curl\User;
 use Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserRegister;
 use App\Models\Interests;
 use App\Models\Languages;
-use App\Models\User;
 use App\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -31,11 +30,12 @@ class UserRegisterController extends Controller
     {
         if (Auth::check()){
 
-        $language = Languages::all();
-        $interest = Interests::all();
+            $language = Languages::all();
+            $interest = Interests::all();
 
-        return view('user_create',compact('language','interest'));
-        }else{
+            return view('user_create',compact('language','interest'));
+        }
+        else{
             return view('auth.login');
         }
     }
@@ -82,16 +82,28 @@ class UserRegisterController extends Controller
             if($duplicateReport) {
                 $userRegister->save();
 
+                $user = UserRegister::latest('id')->first();;
+
+                $registrationData =[
+                    'body' =>'You have been registered',
+                    'registrationText' => 'Visit site',
+                    'url' =>url('/'),
+                ];
+
+                Notification::send($user, new UserCreatedNotification($registrationData));
+
                 $messages = "User created successfully!";
 
                 return redirect('/Dashboard')->with('success', $messages);
             }else{
                 $messages = "User already exists!";
-                return redirect('/RegisterUser')->with('error', $messages);
+                return back()->withInput()
+                             ->with('error', $messages);
             }
         } else {
             $messages   = $validator->errors()->first();
-            return redirect('/RegisterUser')->with('error', $messages);
+            return back()->withInput()
+                         ->with('error', $messages);
          }
     }
 
@@ -157,7 +169,8 @@ class UserRegisterController extends Controller
             return redirect('/Dashboard')->with('success', $messages);
         } else {
             $messages   = $validator->errors()->first();
-            return redirect('/RegisterUser')->with('error', $messages);
+            return back()->withInput()
+                         ->with('error', $messages);
         }
     }
 
@@ -177,20 +190,5 @@ class UserRegisterController extends Controller
         return redirect('/Dashboard')->with('success', $messages);
     }
 
-    public function sendEmailNotification()
-    {
-        $user = User::first();
-
-        $registrationData =[
-          'body' =>'You have been registered',
-          'registrationText' => 'Visit site',
-          'url' =>url('/'),
-//          'ThankYou' =>'Verify that you are registered'
-        ];
-
-//        $user->notify(new UserCreatedNotification($registrationData));
-        Notification::send($user, new UserCreatedNotification($registrationData));
-
-    }
 }
 

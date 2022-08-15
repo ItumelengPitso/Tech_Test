@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div style="padding-bottom: 20px">
-                <a class="btn btn-primary" href="{{ route('index') }}" >Back</a>
+                <a class="btn btn-primary" href="{{ route('Dashboard.index') }}" >Back</a>
             </div>
 
             {{--Message--}}
@@ -21,24 +21,24 @@
                 <div class="card">
                     <div class="card-header">{{'Register users'}}</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('store') }}">
+                        <form method="POST" action="{{ route('UserRegistrations.store') }}">
                         @csrf
                                 <div class="container">
                                     <div class="form-group">
                                         <label for="first_name">Name:</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name">
+                                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="surname">Surname:</label>
-                                        <input type="text" class="form-control" id="surname" name="surname">
+                                        <input type="text" class="form-control" id="surname" name="surname" value="{{ old('surname') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="sa_id">SA ID:</label>
-                                        <input type="text" class="form-control" id="sa_id" name="sa_id">
+                                        <input type="text" class="form-control" id="sa_id" name="sa_id" value="{{ old('sa_id') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="mobile">Mobile Number:</label>
-                                        <input type="number" class="form-control" id="mobile" name="mobile">
+                                        <input type="number" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email Address</label>
@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="birth_date">Birth Date:</label>
-                                        <input type="date" class="form-control" id="birth_date" name="birth_date">
+                                        <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ old('birth_date') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="language">Language:</label>

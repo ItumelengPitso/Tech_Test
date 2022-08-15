@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div style="padding-bottom: 20px">
-                <a class="btn btn-primary" href="{{ route('index') }}" >Back</a>
+                <a class="btn btn-primary" href="{{ route('Dashboard.index') }}" >Back</a>
             </div>
 
             {{--Message--}}
@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-header">{{'Update user'}}</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('update',$findUser->id) }}">
+                        <form action="{{ route('update',$findUser->id) }}" method="post" >
                         @csrf
                                 <div class="container">
                                     <div class="form-group">

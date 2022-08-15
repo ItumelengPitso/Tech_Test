@@ -19,12 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/Dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::post('/createUser', [App\Http\Controllers\UserRegisterController::class, 'store'])->name('store');
-Route::get('/RegisterUser', [App\Http\Controllers\UserRegisterController::class, 'create'])->name('create');
-Route::get('/EditUser/{id}', [App\Http\Controllers\UserRegisterController::class, 'edit'])->name('edit');
+Route::resource('/Dashboard', App\Http\Controllers\HomeController::class);
+
+Route::resource('UserRegistrations', App\Http\Controllers\UserRegisterController::class)->except(['show']);
 Route::post('/UpdatedUser/{id}', [App\Http\Controllers\UserRegisterController::class, 'update'])->name('update');
-Route::post('/DeleteUser/{id}', [App\Http\Controllers\UserRegisterController::class, 'destroy'])->name('destroy');
+Route::get('/DeleteUser/{id}', [App\Http\Controllers\UserRegisterController::class, 'destroy'])->name('destroy');
 
-
-Route::get('sendUserRegistration',[App\Http\Controllers\UserRegisterController::class, 'sendEmailNotification']);
