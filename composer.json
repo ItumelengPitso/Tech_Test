@@ -14,7 +14,6 @@
         "laravel/ui": "^3.4",
         "laravelcollective/html": "^6.3",
         "barryvdh/laravel-debugbar": "^3.3",
-        "barryvdh/laravel-ide-helper": "2.7.*",
         "doctrine/dbal": "^2.5",
         "dompdf/dompdf": "^0.8",
         "fideloper/proxy": "^4.0",
@@ -28,6 +27,7 @@
         "unisharp/laravel-filemanager": "^2.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.12",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
@@ -64,7 +64,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
         }
     },
     "config": {
